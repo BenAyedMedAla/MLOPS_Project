@@ -19,6 +19,10 @@ class Cleaner:
         data['Switch'] = data['Switch'].fillna(-1)
         data['PastAccident'] = data['PastAccident'].fillna("Unknown", inplace=False)
         
+        # Handle target variable (assuming it's the last column)
+        target_col = data.columns[-1]
+        data[target_col] = data[target_col].fillna(data[target_col].mode()[0])  # Fill with most frequent value
+        
         Q1 = data['AnnualPremium'].quantile(0.25)
         Q3 = data['AnnualPremium'].quantile(0.75)
         IQR = Q3 - Q1

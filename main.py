@@ -1,5 +1,6 @@
 import logging
 import yaml
+import os
 import mlflow
 import mlflow.sklearn
 from steps.ingest import Ingestion
@@ -45,11 +46,27 @@ def main():
 
 
 def train_with_mlflow():
+    # Set up MLflow directories
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    mlruns_dir = os.path.join(current_dir, "mlruns")
+    db_path = os.path.join(current_dir, "mlflow.db")
+    
+    # Create mlruns directory
+    os.makedirs(mlruns_dir, exist_ok=True)
+    
+    # Configure MLflow to use SQLite backend
+    tracking_uri = f"sqlite:///{db_path}"
+    mlflow.set_tracking_uri(tracking_uri)
+    
+    # Set environment variables for MLflow
+    os.environ["MLFLOW_TRACKING_URI"] = tracking_uri
+    os.environ["MLFLOW_BACKEND_STORE_URI"] = tracking_uri
 
     with open('config.yml', 'r') as file:
         config = yaml.safe_load(file)
 
-    mlflow.set_experiment("Model Training Experiment")
+    experiment_name = "insurance_model_training"
+    mlflow.set_experiment(experiment_name)
     
     with mlflow.start_run() as run:
         # Load data

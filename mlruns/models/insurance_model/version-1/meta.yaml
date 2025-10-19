@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1760906080504
+current_stage: None
+description: null
+last_updated_timestamp: 1760906080504
+name: insurance_model
+run_id: 819bddda79ba44a7bb6c84eb38d062f2
+run_link: null
+source: file:///C:/Users/Mediatek/Desktop/mlops/mlops-project/mlruns/202349671957609477/819bddda79ba44a7bb6c84eb38d062f2/artifacts/model
+status: READY
+status_message: null
+storage_location: file:///C:/Users/Mediatek/Desktop/mlops/mlops-project/mlruns/202349671957609477/819bddda79ba44a7bb6c84eb38d062f2/artifacts/model
+user_id: null
+version: 1

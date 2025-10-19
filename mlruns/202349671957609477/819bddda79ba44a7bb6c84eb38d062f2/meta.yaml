@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Mediatek/Desktop/mlops/mlops-project/mlruns/202349671957609477/819bddda79ba44a7bb6c84eb38d062f2/artifacts
+end_time: 1760906080531
+entry_point_name: ''
+experiment_id: '202349671957609477'
+lifecycle_stage: active
+run_id: 819bddda79ba44a7bb6c84eb38d062f2
+run_name: handsome-hare-147
+run_uuid: 819bddda79ba44a7bb6c84eb38d062f2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760906055988
+status: 3
+tags: []
+user_id: Mediatek

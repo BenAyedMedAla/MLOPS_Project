@@ -1,6 +1,5 @@
 import logging
 import yaml
-import os
 import mlflow
 import mlflow.sklearn
 from steps.ingest import Ingestion
@@ -13,60 +12,11 @@ from sklearn.metrics import classification_report
 logging.basicConfig(level=logging.INFO,format='%(asctime)s:%(levelname)s:%(message)s')
 
 def main():
-    # Load data
-    ingestion = Ingestion()
-    train, test = ingestion.load_data()
-    logging.info("Data ingestion completed successfully")
-
-    # Clean data
-    cleaner = Cleaner()
-    train_data = cleaner.clean_data(train)
-    test_data = cleaner.clean_data(test)
-    logging.info("Data cleaning completed successfully")
-
-    # Prepare and train model
-    trainer = Trainer()
-    X_train, y_train = trainer.feature_target_separator(train_data)
-    trainer.train_model(X_train, y_train)
-    trainer.save_model()
-    logging.info("Model training completed successfully")
-
-    # Evaluate model
-    predictor = Predictor()
-    X_test, y_test = predictor.feature_target_separator(test_data)
-    accuracy, class_report, roc_auc_score = predictor.evaluate_model(X_test, y_test)
-    logging.info("Model evaluation completed successfully")
-    
-    # Print evaluation results
-    print("\n============= Model Evaluation Results ==============")
-    print(f"Model: {trainer.model_name}")
-    print(f"Accuracy Score: {accuracy:.4f}, ROC AUC Score: {roc_auc_score:.4f}")
-    print(f"\n{class_report}")
-    print("=====================================================\n")
-
-
-def train_with_mlflow():
-    # Set up MLflow directories
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    mlruns_dir = os.path.join(current_dir, "mlruns")
-    db_path = os.path.join(current_dir, "mlflow.db")
-    
-    # Create mlruns directory
-    os.makedirs(mlruns_dir, exist_ok=True)
-    
-    # Configure MLflow to use SQLite backend
-    tracking_uri = f"sqlite:///{db_path}"
-    mlflow.set_tracking_uri(tracking_uri)
-    
-    # Set environment variables for MLflow
-    os.environ["MLFLOW_TRACKING_URI"] = tracking_uri
-    os.environ["MLFLOW_BACKEND_STORE_URI"] = tracking_uri
 
     with open('config.yml', 'r') as file:
         config = yaml.safe_load(file)
 
-    experiment_name = "insurance_model_training"
-    mlflow.set_experiment(experiment_name)
+    mlflow.set_experiment("Model Training Experiment")
     
     with mlflow.start_run() as run:
         # Load data
@@ -122,5 +72,4 @@ def train_with_mlflow():
         print("=====================================================\n")
         
 if __name__ == "__main__":
-    # main()
-    train_with_mlflow()
+    main()
